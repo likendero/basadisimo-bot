@@ -1,2 +1,4 @@
 token.txt
 pipfile.lock
+.pydev*
+.project
