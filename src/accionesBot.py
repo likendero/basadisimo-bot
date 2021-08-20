@@ -27,4 +27,5 @@ def recarga_frases(fich_frases="./frases.txt"):
     except OSError as err:
         print("oh ha ocurrido un error {0}".format(err))
 
+# dicicionario con los comandos, cuando se lanza el bot los carga
 COMAND_DIC = {"start":start, "basado":basado}
