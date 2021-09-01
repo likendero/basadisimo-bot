@@ -37,4 +37,4 @@ def recarga_frases(fich_frases="./frases.txt"):
         print(f"oh ha ocurrido un error {err}")
 
 # dicicionario con los comandos, cuando se lanza el bot los carga
-COMAND_DIC = {"start":start, "basado":basado,"recarga":recarga_frases}
+COMAND_DIC = {"start":start, "basado":basado,"recarga":recarga}
