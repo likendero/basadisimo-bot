@@ -15,7 +15,7 @@ def basado(update: Updater ,context: CallbackContext):
 
 # metodo para recargar las frases
 def recarga(update: Updater ,context: CallbackContext):
-    numero = recarga_frases(file_dir)
+    numero = recarga_frases(f"{file_dir}/../frases.txt")
     
     context.bot.send_message(chat_id=update.effective_chat.id, text=f"Vaya me has hecho recargar frases, espero que merezca la pena numero de frases {numero}")
 
