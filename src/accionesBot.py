@@ -1,9 +1,8 @@
-from typing import List
 import random
 from telegram.ext import Updater
 from telegram.ext import CallbackContext
 
-frases = List('')
+frases = list()
 frases.append("no siento las piernas")
 
 # metodo para devolver una frase basada aleatoria
@@ -18,14 +17,16 @@ def start(update: Updater ,context: CallbackContext):
 
 # metodo para recarga de las frases usables
 def recarga_frases(fich_frases="./frases.txt"):
-    frases = []
+    print(f"añadir frases del siguiente fichero [{fich_frases}]")
+    frases.clear()
     try:
         fichero = open(fich_frases,"r")
         for linea in fichero:
             frases.append(linea)
+            print(f"se encuentra y se añade la siguiente linea[{linea}]")
         fichero.close()
     except OSError as err:
-        print("oh ha ocurrido un error {0}".format(err))
+        print(f"oh ha ocurrido un error {err}")
 
 # dicicionario con los comandos, cuando se lanza el bot los carga
 COMAND_DIC = {"start":start, "basado":basado}
