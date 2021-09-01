@@ -15,7 +15,7 @@ import utils
 file_dir = os.path.dirname(os.path.realpath(__file__))
 print(f"el directorio es: [{file_dir}]")
 # obtenemos el token, se le pasa la ruta del directorio actual
-TOKEN = utils.leerToken(__file__)
+TOKEN = utils.leerToken(file_dir)
 print(f"el token rescatado: [{TOKEN}]")
 LIST = list()
 

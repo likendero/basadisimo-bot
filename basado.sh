@@ -5,4 +5,4 @@ BASEDIR=$(dirname "$0")
 basado=$BASEDIR/src/basado-bot.py
 args=-s
 
-python3.9 $basado $args
+python3 $basado $args
