@@ -1,7 +1,9 @@
 import random
+import os
 from telegram.ext import Updater
 from telegram.ext import CallbackContext
 
+file_dir = os.path.dirname(os.path.realpath(__file__))
 frases = list()
 frases.append("no siento las piernas")
 
@@ -10,6 +12,12 @@ def basado(update: Updater ,context: CallbackContext):
     frase = random.choice(frases)
     
     context.bot.send_message(chat_id=update.effective_chat.id, text=frase)
+
+# metodo para recargar las frases
+def recarga(update: Updater ,context: CallbackContext):
+    recarga_frases(file_dir)
+    
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Vaya me has hecho recargar frases, espero que merezca la pena")
 
 # metodo pos por probar el bot
 def start(update: Updater ,context: CallbackContext):
@@ -29,4 +37,4 @@ def recarga_frases(fich_frases="./frases.txt"):
         print(f"oh ha ocurrido un error {err}")
 
 # dicicionario con los comandos, cuando se lanza el bot los carga
-COMAND_DIC = {"start":start, "basado":basado}
+COMAND_DIC = {"start":start, "basado":basado,"recarga":recarga_frases}
