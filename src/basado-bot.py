@@ -14,11 +14,16 @@ import utils
 #file_dir = os.path.dirname(os.path.realpath(__file__))
 file_dir = os.path.dirname(os.path.realpath(__file__))
 print(f"el directorio es: [{file_dir}]")
+
 # obtenemos el token, se le pasa la ruta del directorio actual
 TOKEN = utils.leerToken(file_dir)
 print(f"el token rescatado: [{TOKEN}]")
 LIST = list()
-
+try:
+    general_config = utils.cargarConfiguracionJson(file_dir,"init.json")
+except Exception as err:
+    print("ha sucedido un error")
+    print(err)
 # funcioncilla que añade los comandillos parametrizados en acciones bot :0
 def add_handlers(dispacher:Dispatcher):
     for key, value in accionesBot.COMAND_DIC.items():
