@@ -5,7 +5,6 @@ from telegram.ext import Updater
 from telegram.ext import CommandHandler
 from telegram.ext.dispatcher import Dispatcher
 import accionesBot
-import constantesBot
 import utils
 
 #Constantes
@@ -19,11 +18,17 @@ print(f"el directorio es: [{file_dir}]")
 TOKEN = utils.leerToken(file_dir)
 print(f"el token rescatado: [{TOKEN}]")
 LIST = list()
+
+# obtencion de la configuracion
+general_config = None
 try:
     general_config = utils.cargarConfiguracionJson(file_dir,"init.json")
+    print(general_config)
 except Exception as err:
     print("ha sucedido un error")
     print(err)
+
+
 # funcioncilla que añade los comandillos parametrizados en acciones bot :0
 def add_handlers(dispacher:Dispatcher):
     for key, value in accionesBot.COMAND_DIC.items():
@@ -35,7 +40,7 @@ def menu():
     stop = False
     while not stop:
         print("### MENU ###")
-        print(" - unput recarga to recargar frases")
+        print(" - recunput recarga to recargar frases")
         print(" - input stop to stop: ")
         input_value = input("que quieres hacer: ")
         if input_value == "stop":
@@ -44,7 +49,11 @@ def menu():
             accionesBot.recarga_frases(f"{file_dir}/../frases.txt")
 
 def ejecucion_bot(tipo_ejec=""):
-    updater = Updater(TOKEN,use_context=constantesBot.CONTEXT)
+    # rescatamos de la config, lo suyo seria hacerlo en otro lado
+    context = general_config['CONTEXT']
+    print(f"el valor de context es el siguiente{context}")
+
+    updater = Updater(TOKEN,use_context=context)
     dispacher = updater.dispatcher
 
     accionesBot.recarga_frases(f"{file_dir}/../frases.txt")
@@ -54,7 +63,7 @@ def ejecucion_bot(tipo_ejec=""):
 
     # se empiezan a aceptar solicitudes
     updater.start_polling()
-
+    updater.__exception_event
     # aqui """"paramos"""" el programa para poder indicar stop
     # tambien es un menu para otras cosillas pero lo importante
     # es poder parar el programa xD
@@ -73,7 +82,7 @@ def main():
         tipo_ejec = sys.argv[1]
         print(f"tipo de ejecucion introducida [{tipo_ejec}]")
     #empezamos la ejecucion del bot en el caso que el token este bien
-    if TOKEN != None and TOKEN:
+    if TOKEN != None and TOKEN and general_config != None:
         ejecucion_bot(tipo_ejec)
 
 
