@@ -2,3 +2,4 @@ token.txt
 .pydev*
 .project
 __pycache__
+*.log
