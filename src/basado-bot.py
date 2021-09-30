@@ -1,12 +1,13 @@
 
 import os
 import sys
-from telegram.ext import Updater
+from telegram.ext import Updater, CallbackContext
 from telegram.ext import CommandHandler
 from telegram.ext.dispatcher import Dispatcher
 import accionesBot
 import utils
-
+import logging
+import time
 #Constantes
 
 # obtenemos el directorio del fichero ejecutando :0
@@ -28,6 +29,13 @@ except Exception as err:
     print("ha sucedido un error")
     print(err)
 
+# generar logger
+
+logger_level = general_config['LOGGER']['level']
+
+logging.basicConfig(filename=f"{file_dir}/../basado.log",level=logger_level)
+
+
 
 # funcioncilla que añade los comandillos parametrizados en acciones bot :0
 def add_handlers(dispacher:Dispatcher):
@@ -35,6 +43,16 @@ def add_handlers(dispacher:Dispatcher):
         command = CommandHandler(key,value)
         dispacher.add_handler(command)
 
+def add_error_handlers(dispacher:Dispatcher):
+    """
+        Funcion para añadir los eventos de error
+    """
+    dispacher.add_error_handler(callback=error_event,run_async=False)
+
+def error_event(update:object,context:CallbackContext):
+    logging.error("ha sucedido un error durante la ejecucion del bot")
+    logging.error(context.error)
+    time.sleep(30)
 # fucnion para lanzar el mnu
 def menu():
     stop = False
@@ -56,14 +74,17 @@ def ejecucion_bot(tipo_ejec=""):
     updater = Updater(TOKEN,use_context=context)
     dispacher = updater.dispatcher
 
+    # en la primera ejecucion se hace una recarga de las frases
     accionesBot.recarga_frases(f"{file_dir}/../frases.txt")
 
     # se añaden los listeners
     add_handlers(dispacher)
-
+    
+    # se añaden listeners para caso de error  
+    add_error_handlers(dispacher)
     # se empiezan a aceptar solicitudes
     updater.start_polling()
-    updater.__exception_event
+
     # aqui """"paramos"""" el programa para poder indicar stop
     # tambien es un menu para otras cosillas pero lo importante
     # es poder parar el programa xD

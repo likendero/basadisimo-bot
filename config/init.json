@@ -1,3 +1,6 @@
 {
-    "CONTEXT":true
+    "CONTEXT":true,
+    "LOGGER":{
+        "level":20
+    }
 }
